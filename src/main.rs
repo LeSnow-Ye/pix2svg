@@ -26,6 +26,10 @@ struct Args {
     #[arg(long)]
     no_crisp_edges: bool,
 
+    /// Force overwrite existing output files
+    #[arg(short, long)]
+    force: bool,
+
     /// Enable verbose output
     #[arg(short, long)]
     verbose: bool,
@@ -81,6 +85,14 @@ fn process_image(args: &Args) -> Result<()> {
         path.set_extension("svg");
         path
     });
+
+    // Check if output file exists and handle overwrite protection
+    if output_path.exists() && !args.force {
+        anyhow::bail!(
+            "Output file already exists: {:?}\nUse --force to overwrite existing files",
+            output_path
+        );
+    }
 
     // Save SVG file
     save_svg_to_file(&result.svg_content, &output_path)

@@ -400,3 +400,29 @@ pub fn save_svg_to_file<P: AsRef<std::path::Path>>(
     std::fs::write(output_path, svg_content)?;
     Ok(())
 }
+
+/// Save SVG content to a file with overwrite protection
+///
+/// # Arguments
+///
+/// * `svg_content` - The SVG content to save
+/// * `output_path` - Path where to save the SVG file
+/// * `force_overwrite` - Whether to overwrite existing files
+///
+/// # Returns
+///
+/// Returns an error if the file exists and `force_overwrite` is false
+pub fn save_svg_to_file_safe<P: AsRef<std::path::Path>>(
+    svg_content: &str,
+    output_path: P,
+    force_overwrite: bool,
+) -> Result<(), Box<dyn std::error::Error>> {
+    let path = output_path.as_ref();
+
+    if path.exists() && !force_overwrite {
+        return Err(format!("File already exists: {:?}", path).into());
+    }
+
+    std::fs::write(path, svg_content)?;
+    Ok(())
+}
