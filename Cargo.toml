@@ -1,0 +1,24 @@
+[package]
+name = "pix2svg"
+version = "0.1.0"
+edition = "2021"
+authors = ["LeSnow <lensow.ye@gmail.com>"]
+description = "Convert pixel art images to optimized SVG format"
+license = "MIT"
+repository = "https://github.com/LeSnow-Ye/pix2svg"
+readme = "README.md"
+keywords = ["image", "svg", "pixel-art", "graphics", "conversion"]
+categories = ["multimedia::images", "command-line-utilities"]
+
+[lib]
+name = "pix2svg"
+path = "src/lib.rs"
+
+[[bin]]
+name = "pix2svg"
+path = "src/main.rs"
+
+[dependencies]
+image = "0.25.6"
+anyhow = "1.0"
+clap = { version = "4.0", features = ["derive"] }
